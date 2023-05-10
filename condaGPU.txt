@@ -1,0 +1,131 @@
+# Make an AWS account or login if you already have an account
+aws.amazon.com
+
+# Create IAM role
+seacrh for IAM in the search box on the AWS console homepage
+click IAM
+click Users [on left side menu of IAM page]
+click Add users [on upper right side of IAM page]
+make a User name
+click the box that says "Provide user access to the AWS Management Console"
+create a password
+click Next
+click Add to user group
+select Admin
+click Next
+click Create User
+click download .csv file to [download you password]
+click "return to users list"
+click on the user name you just created
+scroll down to "Access keys"
+click "create access key"
+click "Command Line Interface (CLI)"
+check the box thats says "I understand the above recommendation and want to proceed to create an access key."
+click Next
+click create access keys
+click download .csv file to [download you password]
+click done
+
+#Launch an EC2 instance
+go back to the AWS console home page
+seacrh for EC2 in the search box on the AWS console homepage
+click EC2
+click Instances [on left side menu of EC2 page]
+click Launch instances [upper right side of page]
+make a name for your instance [under Names and tags]
+select Amazon Linux AWS [under Application and OS Images]
+select Deep Learning AMI GPU TensorFlow 2.12.0 [from dropdown menu under Application and OS Images]
+select g4dn.xlarge [under Instance type]
+click create new key pair [under key pair (login)]
+make a name for your key pair
+select RSA & .pem
+click create key pair and download it to your directory
+select Create security group [under Network settings]
+select allow Allow SSH traffic from, Allow HTTP traffic from internet, Allow HTTPS traffic from internet
+select 30gb of storage [under Configure storage]
+click launch instance
+click on your instance id when youre redirected to the confirmation page
+select the instance you just created by checking the check box next to the name
+scroll down and find the Public IPv4 DNS
+copy the Public IPv4 DNS
+
+#Login to you instance
+go to whatever directory you downloaded your key pair in
+sudo ssh -i whatEverYouNamedYourKeyPair.pem ec2-user@whatEverYourPublicIPv4DNS_is [should look something like this --> sudo ssh -i v1.pem ec2-user@ec2-54-145-63-56.compute-1.amazonaws.com]
+type yes when prompted about going into your instance
+
+sudo yum update -y
+
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+
+bash Miniconda3-latest-Linux-x86_64.sh -b
+
+# Update Conda
+conda update -n base -c defaults conda / conda update -n base -c conda-forge conda -y
+
+# Create Conda environment and activate it
+conda init bash
+source ~/.bashrc
+*close and reopen shell
+conda create --name mommy python=3.9 -y
+conda activate mommy
+
+# Install pip, setuptools, and wheel
+conda install pip
+pip install -U setuptools wheel
+
+# Install PyTorch and torchvision
+conda install pytorch==1.9.1 torchvision torchaudio -c pytorch
+
+# Install torch audio
+pip install -U torchaudio --index-url https://download.pytorch.org/whl/cu118
+
+# Install gcc and Development Tools (pyworld wheel will not be built if this is not installed)
+conda install -c conda-forge gcc_linux-64 gxx_linux-64 make autoconf automake libtool
+
+# Install SO-VITS-SVC fork
+pip install -U so-vits-svc-fork
+
+#Find the directory that the so_vits_svc_fork package is in
+find / -name "so_vits_svc_fork*"
+
+#Move into that directory and create new directories
+cd /home/ec2-user/miniconda3/envs/ak_tune/lib/python3.9/site-packages/so_vits_svc_fork
+mkdir dataset dataset_raw
+cd dataset_raw
+mkdir ak_wavs
+
+#Copy directory from local to ec2
+aws s3 cp /home/dj/motivation_asmr/splits s3://motivation-asmr/ --recursive
+
+#Download files from s3 to ec2
+aws s3 sync s3://motivation-asmr /opt/conda/envs/mommy/lib/python3.9/site-packages/so_vits_svc_fork/dataset_raw/mommy_wavs/
+
+scp mLAPTOP-H9T59I57@172.24.224.1:/mnt/wsl/Ubuntu-20.04/home/dj/motivation_asmr/splits/ ec2-user@ec2-34-234-215-138.compute-1.amazonaws.com:/opt/conda/envs/mommy/lib/python3.9/site-packages/so_vits_svc_fork/dataset_raw
+
+
+#Install AWS CLI and add credentials
+pip install awscli
+aws configure
+    AKIAUHOJC3MYEJJTKYET
+    x2tVyW3TKa3l8UxZNxtWvk8T08v1yFhq7wcnQjGN
+    us-east-1
+    JSON
+
+#Add the dataset to ec2 instance(upload files from local machine to ec2 using console s3 upload, then download)
+create a s3 bucket
+edit object ownership(ACLs enabled)
+edit access control list (make everything readable and writable)
+upload dataset to s3 
+make sure objects are public
+
+#Move the dataset to the folder for training
+mv /home/ec2-user/miniconda3/envs/ak_tune/lib/python3.9/site-packages/so_vits_svc_fork/dataset_raw/ak_wavs/splits/* /home/ec2-user/miniconda3/envs/ak_tune/lib/python3.9/site-packages/so_vits_svc_fork/dataset_raw/ak_wavs/ 
+
+#Prep the model for training (####___MUST BE INSIDE DATASET_RAW DIRECTORY___####)
+svc pre-resample (-i [path] --> if necessary)
+svc pre-config
+svc pre-hubert
+
+
+svc train -t

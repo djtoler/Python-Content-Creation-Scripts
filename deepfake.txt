@@ -1,0 +1,27 @@
+sudo yum update -y
+[might need to install git if its not already installed]
+
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+
+bash Miniconda3-latest-Linux-x86_64.sh
+
+sudo mkdir -v -p /usr/local/bin/ffmpeg
+sudo cd /usr/local/bin/ffmpeg
+sudo wget https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-i686-static.tar.xz
+sudo tar -v -xf ffmpeg-release-i686-static.tar.xz --strip-components=1
+sudo rm -v -f ffmpeg-release-i686-static.tar.xz
+sudo ln -snf /usr/local/bin/ffmpeg/ffmpeg /usr/bin/ffmpeg
+sudo ln -snf /usr/local/bin/ffmpeg/ffpropbe /usr/bin/ffpropbe
+
+conda create -n deepfacelab -c main python=3.7 cudnn=7.6.5 cudatoolkit=10.1.243
+conda activate deepfacelab
+sudo git clone --depth 1 https://github.com/nagadit/DeepFaceLab_Linux.git
+cd DeepFaceLab_Linux
+sudo git clone --depth 1 https://github.com/iperov/DeepFaceLab.git
+python -m pip install -r ./DeepFaceLab/requirements-cuda.txt
+
+cd scripts
+
+sudo bash 4.1_download_CelebA.sh
+sudo bash 4.1_download_FFHQ.sh
+sudo bash 4.1_download_Quick96.sh
