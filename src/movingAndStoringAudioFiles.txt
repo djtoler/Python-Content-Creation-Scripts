@@ -1,0 +1,12 @@
+#Copy file from local directory to s3
+aws s3 cp D_569.pth s3://motivation-asmr/D_569.pth
+
+#Copy file from s3 to local directory
+aws s3 cp s3://motivation-asmr/D_569.pth .
+
+#Sync directory from s3 to local machine
+aws s3 sync s3://motivation-asmr /home/dj
+
+#Sync directory from local machine to s3
+aws s3 sync /home/dj s3://motivation-asmr 
+
