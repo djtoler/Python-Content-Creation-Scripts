@@ -107,10 +107,7 @@ scp mLAPTOP-H9T59I57@172.24.224.1:/mnt/wsl/Ubuntu-20.04/home/dj/motivation_asmr/
 #Install AWS CLI and add credentials
 pip install awscli
 aws configure
-    AKIAUHOJC3MYEJJTKYET
-    x2tVyW3TKa3l8UxZNxtWvk8T08v1yFhq7wcnQjGN
-    us-east-1
-    JSON
+
 
 #Add the dataset to ec2 instance(upload files from local machine to ec2 using console s3 upload, then download)
 create a s3 bucket
