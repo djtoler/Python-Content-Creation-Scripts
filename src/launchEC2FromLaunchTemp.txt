@@ -1,0 +1,1 @@
+aws ec2 run-instances --launch-template LaunchTemplateId=lt-0a3e7d6308054bc4f,Version=1 --count 1 --security-group-ids sg-00d2644327cb7bee5
