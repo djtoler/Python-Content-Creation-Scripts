@@ -1,0 +1,52 @@
+#!/bin/bash
+cd /home/ubuntu/
+
+sudo apt update -y
+
+sudo apt install git
+sudo apt install awscli
+
+mkdir video_scripts
+cd video_scripts
+git clone https://github.com/djtoler/Python-Content-Creation-Scripts.git
+
+cd ..
+
+
+sudo mkdir -v -p /usr/local/bin/ffmpeg
+sudo cd /usr/local/bin/ffmpeg
+sudo wget https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-i686-static.tar.xz
+sudo tar -v -xf ffmpeg-release-i686-static.tar.xz --strip-components=1
+sudo rm -v -f ffmpeg-release-i686-static.tar.xz
+sudo ln -snf /usr/local/bin/ffmpeg/ffmpeg /usr/bin/ffmpeg
+sudo ln -snf /usr/local/bin/ffmpeg/ffpropbe /usr/bin/ffpropbe
+
+curl -sL https://deb.nodesource.com/setup_16.x | sudo bash -
+
+$ cat /etc/apt/sources.list.d/nodesource.list
+deb https://deb.nodesource.com/node_16.x focal main
+deb-src https://deb.nodesource.com/node_16.x focal main
+
+
+sudo apt -y install nodejs
+sudo apt -y install gcc g++ make
+
+sudo npm install pm2@latest -g
+sudo pm2 start index.js
+sudo pm2 startup
+sudo pm2 save
+
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+bash Miniconda3-latest-Linux-x86_64.sh -b
+conda update -n base -c conda-forge conda -y
+conda init bash
+source ~/.bashrc
+conda create --name newenv python=3.9 -y
+conda activate newenv 
+conda install pip
+conda install numpy scipy matplotlib pandas jupyter
+pip install pyAudioAnalysis
+pip install pydub 
+pip install moviepy
+pip install youtube-download-cli
+python -m pip install git+https://github.com/pytube/pytube
