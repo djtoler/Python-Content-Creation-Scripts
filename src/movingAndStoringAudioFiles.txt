@@ -10,3 +10,5 @@ aws s3 sync s3://motivation-asmr /home/dj
 #Sync directory from local machine to s3
 aws s3 sync /home/dj s3://motivation-asmr 
 
+#Move files between directories on local machine
+mv /home/user/source/* /home/user/destination/

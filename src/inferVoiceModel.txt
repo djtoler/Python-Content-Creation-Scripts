@@ -1,0 +1,1 @@
+svc infer -s ak_wavs -m /opt/conda/envs/ak_voice/lib/python3.9/site-packages/so_vits_svc_fork/logs/44k/G_4638.pth -c /opt/conda/envs/ak_voice/lib/python3.9/site-packages/so_vits_svc_fork/configs/44k/config.json -o /home/output.wav /home/input.wav
