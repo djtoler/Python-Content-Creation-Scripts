@@ -99,7 +99,7 @@ mkdir ak_wavs
 aws s3 cp /home/dj/motivation_asmr/splits s3://motivation-asmr/ --recursive
 
 #Download files from s3 to ec2
-aws s3 sync s3://motivation-asmr /opt/conda/envs/mommy/lib/python3.9/site-packages/so_vits_svc_fork/dataset_raw/mommy_wavs/
+aws s3 sync s3://motivation-asmr /opt/conda/envs/mommy/lib/python3.9/site-packages/so_vits_svc_fork/dataset_raw/asmr/
 
 scp mLAPTOP-H9T59I57@172.24.224.1:/mnt/wsl/Ubuntu-20.04/home/dj/motivation_asmr/splits/ ec2-user@ec2-34-234-215-138.compute-1.amazonaws.com:/opt/conda/envs/mommy/lib/python3.9/site-packages/so_vits_svc_fork/dataset_raw
 
