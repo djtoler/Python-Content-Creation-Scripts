@@ -2,10 +2,10 @@ import os
 from pydub import AudioSegment
 
 # Input directory containing wav files
-input_dir = "/path/to/input/dir"
+input_dir = "/home/ubuntu/audio_files/wavs/"
 
 # Output directory to save 5-second segments
-output_dir = "/path/to/output/dir"
+output_dir = "/home/ubuntu/audio_files/split_wavs/"
 
 # Loop through each wav file in input directory
 for filename in os.listdir(input_dir):
