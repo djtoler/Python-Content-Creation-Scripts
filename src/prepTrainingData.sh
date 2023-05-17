@@ -27,7 +27,7 @@ ffmpeg -i "$output_audio_path" "$output_wav_path"
 demucs --two-stems=vocals /home/ubuntu/audio_files/"$output_wav_path"
 
 #Move into the directory where demucs will store the extracted vocals wav file
-cd /home/ubuntu/audio_files/separated/htdemucs/output_audio
+cd /home/ubuntu/audio_files/separated/htdemucs/"$data_label"
 
 #Move that wav file to the wavs directory
 mv ./output_audio.wav /home/ubuntu/audio_files/wavs/output_audio.wav
