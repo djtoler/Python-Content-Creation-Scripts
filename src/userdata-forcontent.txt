@@ -18,11 +18,14 @@ mkdir audio_files
 cd audio_files
 mkdir wavs
 mkdir split_wavs
+mkdir mp3s
 cd ..
 mkdir video_scripts
 cd video_scripts
 git clone https://github.com/djtoler/Python-Content-Creation-Scripts.git
 cd ..
+
+chmod -R a+rw /home/ubuntu
 
 sudo apt  install ffmpeg -y
 
@@ -57,21 +60,19 @@ conda init bash
 conda create --name newenv python=3.9 -y
 conda activate newenv 
 conda install pip
+sudo chown -R $USER:$USER /home/ubuntu/.cache/pip
 sudo apt install awscli -y
 conda install numpy scipy matplotlib pandas jupyter
 pip install scikit-learn
 pip install hmmlearn
 pip install imbalanced-learn
 pip install plotly
+pip install yt-dlp
 
 python3 -m pip install -U demucs
 pip install eyed3
 pip install pyAudioAnalysis
 pip install pydub 
 pip install moviepy
-pip install youtube-download-cli
 python -m pip install git+https://github.com/pytube/pytube
-
-
-
 

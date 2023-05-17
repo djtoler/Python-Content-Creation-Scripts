@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#Bucket name for files stored in variable
+#Bucket name for files stored as cl argument
 bucket_name="$1"
 
 #Input source file and speaker identification file stored in variables

@@ -1,0 +1,13 @@
+#Get into the file directory and give file permissions
+chmod +x downloadYouTubeVideo.sh
+
+#Run the "downloadYouTubeVideo.sh" file with 2 arguments
+./downloadYouTubeVideo.sh <YouTube Link> <Name To Rename File To>
+example ---> ./downloadYouTubeVideo.sh https://www.youtube.com/watch?v=BFpD0iZ9Vis lonley
+
+#Get the directory of the mp3
+pwd
+
+#Run the "prepTrainingData.sh" file with 2 arguments
+./prepTrainingData.sh <Bucket Name> <PWD Path To MP3> 
+example ---> ./prepTrainingData.sh newBucket /home/ubuntu/audio_files/mp3s/lonley.mp3
