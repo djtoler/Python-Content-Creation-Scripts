@@ -4,7 +4,15 @@ cd /home/ubuntu/
 sudo apt update -y
 
 sudo apt install git
+
 sudo apt install awscli
+aws configure set default.region us-east-1
+aws configure set default.output json
+access_key_id=$(aws ssm get-parameter --name "/myapp/aws_access_key_id" --query "Parameter.Value" --with-decryption --output text)
+secret_access_key=$(aws ssm get-parameter --name "/myapp/aws_secret_access_key" --query "Parameter.Value" --with-decryption --output text)
+echo "[default]" >> /home/ec2-user/.aws/credentials
+echo "aws_access_key_id = $access_key_id" >> /home/ec2-user/.aws/credentials
+echo "aws_secret_access_key = $secret_access_key" >> /home/ec2-user/.aws/credentials
 
 mkdir audio_files
 mkdir video_scripts
