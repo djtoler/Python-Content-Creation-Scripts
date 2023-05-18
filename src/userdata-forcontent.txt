@@ -3,19 +3,11 @@ cd /home/ubuntu/
 
 sudo apt update -y
 
-sudo chmod -R u+rwX,go+rwX /home/ubuntu
-
 sudo apt install git
 
 sudo apt install awscli
-sudo -u ec2-user aws configure set default.region us-east-1
-sudo -u ec2-user aws configure set default.output json
-access_key_id=$(sudo -u ec2-user aws ssm get-parameter --name "/myapp/aws_access_key_id" --query "Parameter.Value" --with-decryption --output text)
-secret_access_key=$(sudo -u ec2-user aws ssm get-parameter --name "/myapp/aws_secret_access_key" --query "Parameter.Value" --with-decryption --output text)
-sudo -u ec2-user bash -c "echo '[default]' >> /home/ec2-user/.aws/credentials"
-sudo -u ec2-user bash -c "echo 'aws_access_key_id = $access_key_id' >> /home/ec2-user/.aws/credentials"
-sudo -u ec2-user bash -c "echo 'aws_secret_access_key = $secret_access_key' >> /home/ec2-user/.aws/credentials"
-
+aws configure set default.region us-east-1
+aws configure set default.output json
 
 mkdir audio_files
 cd audio_files
@@ -57,14 +49,17 @@ conda init bash
 conda create --name newenv python=3.9 -y
 conda activate newenv 
 conda install pip
-sudo chown -R $USER:$USER /home/ubuntu/.cache
-sudo chown -R $USER:$USER /home/ubuntu/.cache/pip
+sudo chown -R  /home/ubuntu/.cache
+sudo chown -R  /home/ubuntu/.cache/pip
 sudo apt install awscli -y
 conda install numpy scipy matplotlib pandas jupyter
+conda install opencv
 pip install scikit-learn
 pip install hmmlearn
 pip install imbalanced-learn
 pip install plotly
+pip install rembg
+
 
 python3 -m pip install -U demucs
 pip install eyed3
@@ -76,6 +71,11 @@ pip install yt-dlp
 pip install youtubedr
 pip install youtube_dl
 python -m pip install git+https://github.com/pytube/pytube
+
+sudo chmod -R u+rwX,go+rwX /home/ubuntu
+
+
+
 
 
 

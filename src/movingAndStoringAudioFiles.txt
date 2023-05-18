@@ -1,5 +1,5 @@
 #Copy file from local directory to s3
-aws s3 cp output_video.mp4 s3://ytaudio/output_video.mp4
+aws s3 cp output_durk.jpg s3://ytaudio/output_durk.jpg
 
 #Give public read access
 aws s3api put-object-acl --acl public-read --bucket ytaudio --key output_audio.mp3
