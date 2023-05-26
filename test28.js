@@ -1,4 +1,4 @@
-{
+const jsonData1 = {
   "jobName": "test28",
   "accountId": "290868878128",
   "results": {
@@ -5468,4 +5468,8 @@
     ]
   },
   "status": "COMPLETED"
-}
+};
+
+// const testTranscript = JSON.parse(jsonData1)
+
+module.exports = jsonData1
