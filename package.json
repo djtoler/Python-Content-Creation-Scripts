@@ -1,0 +1,28 @@
+{
+  "name": "videoscripts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "transcribeAudio.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/djtoler/Python-Content-Creation-Scripts.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/djtoler/Python-Content-Creation-Scripts/issues"
+  },
+  "homepage": "https://github.com/djtoler/Python-Content-Creation-Scripts#readme",
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.338.0",
+    "@aws-sdk/client-transcribe": "^3.338.0",
+    "cross-fetch": "^3.1.6",
+    "dotenv": "^16.0.3",
+    "node-fetch": "^3.3.1",
+    "xml2js": "^0.6.0"
+  }
+}

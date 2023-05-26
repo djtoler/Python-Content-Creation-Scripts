@@ -9,9 +9,7 @@ output_audio_path = "./output_audio.mp3"
 
 base_url = "https://api.assemblyai.com/v2"
 
-headers = {
-    "authorization": "3d29a15fd2b44b3c918463dafd64bbee"
-}
+headers = {"authorization": "3d29a15fd2b44b3c918463dafd64bbee"}
 
 with open(original_audio_path, "rb") as f:
     response = requests.post(base_url + "/upload",
