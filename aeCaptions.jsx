@@ -115,7 +115,7 @@ if (!jsonFile.exists) {
 jsonFile.open("r");
 var jsonData = jsonFile.read();
 jsonFile.close();
-alert(typeof(jsonData))
+
 // var transcriptionForCaptions = JSON.parse(jsonData);
 // alert(transcriptionForCaptions[0][transcriptionForCaptions[0].length -1])
 
@@ -126,12 +126,12 @@ if (typeof JSON === "undefined") {
     );
 }
 
-alert(jsonData[0][jsonData[0].length -1]);
+
 // Parse the JSON data
 var transcriptionForCaptions;
 try {
   transcriptionForCaptions = JSON.parse(jsonData);
-  alert(JSON.stringify(transcriptionForCaptions[0][transcriptionForCaptions[0].length - 1]));
+  // alert(JSON.stringify(transcriptionForCaptions[0][transcriptionForCaptions[0].length - 1]));
 
 } catch (e) {
   alert("Failed to parse JSON data: " + e + "--->" + typeof(transcriptionForCaptions));
@@ -140,6 +140,7 @@ try {
 
 // Get the active composition
 var comp = app.project.item(2);
+var comp2 = app.project.item(1);
 if (!comp || !(comp instanceof CompItem) || comp.name !== compName) {
   alert("No active composition named '" + compName + "' found.");
   exit();
@@ -147,11 +148,11 @@ if (!comp || !(comp instanceof CompItem) || comp.name !== compName) {
 
 var lastArray = transcriptionForCaptions[transcriptionForCaptions.length - 1]
 
-alert(lastArray[lastArray.length - 1].intervalBatchOfWords.end)
+// alert(lastArray[lastArray.length - 1].intervalBatchOfWords.end)
 
 var maxEndTime = lastArray[lastArray.length - 1].intervalBatchOfWords.end
 
-
+var bgColor = [1, 0, 0]; // RGB color values (red in this example)
 // Loop through the transcription data and add captions
 for (var i = 0; i < transcriptionForCaptions.length; i++) {
   var captionData = transcriptionForCaptions[i][transcriptionForCaptions[i].length - 1].intervalBatchOfWords;
@@ -161,8 +162,26 @@ for (var i = 0; i < transcriptionForCaptions.length; i++) {
   textLayer.name = "Caption " + (i + 1); // set a name for the text layer
   textLayer.property("Source Text").setValue(captionData.words);
 
-  textLayer.startTime = captionData.start;
-  textLayer.outPoint = captionData.end;
+
+
+
+  var xPos = comp.width / 2;
+  var yPos = comp.height * 3 / 4;
+
+  // Get the size and position of the text layer at the current time
+  var textBoundingBox = textLayer.sourceRectAtTime(textLayer.startTime, false);
+  var textCenter = [textBoundingBox.left + textBoundingBox.width/2, textBoundingBox.top + textBoundingBox.height/2];
+
+  // Adjust the anchor point to the center of the text bounding box
+  textLayer.property("Anchor Point").setValue(textCenter);
+
+  textLayer.property("Position").setValue([xPos, yPos]);
+
+  textLayer.textContainer.autoSizeToFit = true;
+  textLayer.textContainer.wordWrap = true;
+
+
+
 }
 
 comp.duration = maxEndTime;
