@@ -106,7 +106,7 @@
 var compName = "test"; // replace with your composition name
 
 // Load the JSON data from the file
-var jsonFile = new File("transcriptionForCaptions2.json"); // replace with the actual file path
+var jsonFile = new File("transcriptionForCaptions.json"); // replace with the actual file path
 if (!jsonFile.exists) {
   alert("JSON file not found.");
   exit();
@@ -147,10 +147,10 @@ if (!comp || !(comp instanceof CompItem) || comp.name !== compName) {
 }
 
 var lastArray = transcriptionForCaptions[transcriptionForCaptions.length - 1]
+alert(transcriptionForCaptions.length)
+alert(lastArray.length)
 
-// alert(lastArray[lastArray.length - 1].intervalBatchOfWords.end)
-
-var maxEndTime = lastArray[lastArray.length - 1].intervalBatchOfWords.end
+var maxEndTime = lastArray[lastArray.length - 1].endTime
 
 var bgColor = [1, 0, 0]; // RGB color values (red in this example)
 // Loop through the transcription data and add captions
@@ -163,7 +163,8 @@ for (var i = 0; i < transcriptionForCaptions.length; i++) {
   textLayer.property("Source Text").setValue(captionData.words);
 
 
-
+  textLayer.inPoint = captionData.start;
+  textLayer.outPoint = captionData.end;
 
   var xPos = comp.width / 2;
   var yPos = comp.height * 3 / 4;
@@ -177,8 +178,6 @@ for (var i = 0; i < transcriptionForCaptions.length; i++) {
 
   textLayer.property("Position").setValue([xPos, yPos]);
 
-  textLayer.textContainer.autoSizeToFit = true;
-  textLayer.textContainer.wordWrap = true;
 
 
 

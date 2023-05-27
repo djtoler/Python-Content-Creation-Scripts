@@ -100,40 +100,58 @@ const S3Params = {Bucket: transcribeOutputBucketName, Key: transcribeJobName+'.j
 const groupTranscriptionForCaptions = async () => {
     const groupedTranscriptions = [];
     let temp = [];
-    let latestArray;
-    // const arrayOfWordsAndTimes = jsonTranscript.results.items
-    const arrayOfWordsAndTimes = jsonData1.results.items
-    let interval = 3.99; 
+    const arrayOfWordsAndTimes = jsonData1.results.items;
+    let interval = 1.20; 
 
-    for (let i = 0; i < arrayOfWordsAndTimes.length; i++) {
+    let i = 0;
+
+    while (i < arrayOfWordsAndTimes.length) {
         const currentWordAndTime = arrayOfWordsAndTimes[i];
         const startTime = parseFloat(currentWordAndTime.start_time);
         const endTime = parseFloat(currentWordAndTime.end_time);
-        const word = currentWordAndTime.alternatives[0].content
+        const word = currentWordAndTime.alternatives[0].content;
 
         if (startTime && endTime) {
             if (endTime <= interval) {
-                temp.push({startTime, endTime, word})
-            }
-            else{
-                groupedTranscriptions.push(temp)
-                let intervalBatchOfWords = temp.reduce(function(previousValue, currentValue) {
-                    return previousValue + ' ' + currentValue.word;
-                }, '').trim();
+                temp.push({ startTime, endTime, word });
+            } else {
+                // Push the current word to temp if it has not been added yet
+                temp.push({ startTime, endTime, word });
 
-                latestArray = groupedTranscriptions[groupedTranscriptions.length -1]
-
-                temp.push({intervalBatchOfWords:{
-                    words:intervalBatchOfWords,
-                    start: latestArray[0].startTime,
-                    end: latestArray[latestArray.length -1].endTime
-                }})
+                if (temp.length > 0) {
+                    let intervalBatchOfWords = temp.reduce(function (previousValue, currentValue) {
+                        return previousValue + ' ' + currentValue.word;
+                    }, '').trim();
                 
-                temp = [];
-                interval += 3.99;
-                console.log(groupedTranscriptions[groupedTranscriptions.length -1]);
+                    if (intervalBatchOfWords.startsWith('undefined')) {
+                        intervalBatchOfWords = intervalBatchOfWords.replace('undefined', '').trim();
+                    }
+                
+                    const batchStart = temp[0].startTime;
+                    const batchEnd = temp[temp.length - 1].endTime;
+                
+                    if (batchStart !== undefined || batchEnd !== undefined) {
+                        temp.push({
+                            intervalBatchOfWords: {
+                                words: intervalBatchOfWords,
+                                start: batchStart,
+                                end: batchEnd
+                            }
+                        });
+                    }
+                
+                    groupedTranscriptions.push(temp);
+                    console.log(groupedTranscriptions[groupedTranscriptions.length - 1]);
+                    temp = []; 
+                }
+
+                // Reset interval
+                interval = endTime + 1.20;
             }
-        }  
+        }
+
+        // Always increment i at the end of each iteration
+        i++;
     }
 
     const transcriptionForCaptions = JSON.stringify(groupedTranscriptions, null, 2);
@@ -144,10 +162,11 @@ const groupTranscriptionForCaptions = async () => {
         console.log("The file was saved!");
     }); 
 
-    return groupedTranscriptions
+    return groupedTranscriptions;
 };
 
-groupTranscriptionForCaptions()
+groupTranscriptionForCaptions();
+
   
 // console.log(jsonData1, "json data", typeof(jsonData1));
 // console.log(jsonData1.results.items[0]);
