@@ -101,7 +101,7 @@ const groupTranscriptionForCaptions = async () => {
     const groupedTranscriptions = [];
     let temp = [];
     const arrayOfWordsAndTimes = jsonData1.results.items;
-    let interval = 1.20; 
+    let interval = 0.60; 
 
     let i = 0;
 
@@ -126,7 +126,6 @@ const groupTranscriptionForCaptions = async () => {
                     if (intervalBatchOfWords.startsWith('undefined')) {
                         intervalBatchOfWords = intervalBatchOfWords.replace('undefined', '').trim();
                     }
-                
                     const batchStart = temp[0].startTime;
                     const batchEnd = temp[temp.length - 1].endTime;
                 
@@ -139,28 +138,27 @@ const groupTranscriptionForCaptions = async () => {
                             }
                         });
                     }
-                
                     groupedTranscriptions.push(temp);
                     console.log(groupedTranscriptions[groupedTranscriptions.length - 1]);
+                    console.log(groupedTranscriptions.length);
                     temp = []; 
                 }
-
                 // Reset interval
-                interval = endTime + 1.20;
+                interval = endTime + 0.60;
             }
         }
-
         // Always increment i at the end of each iteration
         i++;
     }
 
     const transcriptionForCaptions = JSON.stringify(groupedTranscriptions, null, 2);
-    fs.writeFile("transcriptionForCaptions.js", "const transcriptionForCaptions = " + transcriptionForCaptions + ";", function(err) {
+    fs.writeFile("transcriptionForCaptions.json", transcriptionForCaptions, function(err) {
         if(err) {
             return console.log(err);
         }
         console.log("The file was saved!");
-    }); 
+    });
+    
 
     return groupedTranscriptions;
 };

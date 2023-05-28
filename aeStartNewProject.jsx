@@ -25,7 +25,7 @@
 
 
 // Create a new project
-var projectName = 'jpTest69';
+var projectName = 'jpTest73';
 var project = app.newProject();
 app.project.save(File(projectName+".aep"))
 

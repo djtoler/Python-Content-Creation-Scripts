@@ -150,7 +150,8 @@ var lastArray = transcriptionForCaptions[transcriptionForCaptions.length - 1]
 alert(transcriptionForCaptions.length)
 alert(lastArray.length)
 
-var maxEndTime = lastArray[lastArray.length - 1].endTime
+var maxEndTime = 143.729
+alert(maxEndTime)
 
 var bgColor = [1, 0, 0]; // RGB color values (red in this example)
 // Loop through the transcription data and add captions
