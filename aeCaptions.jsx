@@ -1,108 +1,3 @@
-// var compName = "test"; // replace with your composition name
-
-// // replace with your transcription data
-// var transcriptionFile = new File("transcriptionForCaptions.js"); // replace with the actual file name
-
-// if (!transcriptionFile.exists) {
-//     alert("Transcription file not found.");
-//     exit();
-// }
-
-// transcriptionFile.open("r");
-// var transcriptionData = transcriptionFile.read();
-// transcriptionFile.close();
-
-// // evaluate the transcription data as JavaScript code
-// var transcriptionForCaptions;
-// try {
-//     transcriptionForCaptions = eval(transcriptionData);
-// } catch (e) {
-//     alert("Failed to parse transcription data: " + e);
-//     exit();
-// }
-
-// // Get the active composition
-// var comp = app.project.activeItem;
-// if (!comp || !(comp instanceof CompItem) || comp.name !== compName) {
-//     alert("No active composition named '" + compName + "' found.");
-//     exit();
-// }
-
-// // Get the first item in the project (assumed to be the video file)
-// var videoFileItem = app.project.item(1);
-// if (!videoFileItem) {
-//     alert("No video file found.");
-//     exit();
-// }
-
-// // Add the video to the composition
-// var videoLayer = comp.layers.add(videoFileItem);
-// videoLayer.moveToBeginning(); // Move the video layer to the bottom of the layer stack
-
-// // Loop through the transcription data
-// for (var i = 0; i < transcriptionForCaptions.length; i++) {
-//     var intervalBatchOfWords = transcriptionForCaptions[i].intervalBatchOfWords;
-//     if (!intervalBatchOfWords) continue; // skip this batch if it has no intervalBatchOfWords object
-
-//     // Create a new text layer for the caption
-//     var textLayer = comp.layers.addText();
-//     textLayer.name = "Caption " + (i + 1); // Set a name for the text layer
-//     textLayer.property("Source Text").setValue(intervalBatchOfWords.words);
-
-//     // Set the font to Battery Park
-//     var textProp = textLayer.property("Source Text");
-//     var textDocument = textProp.value;
-//     textDocument.resetCharStyle();
-//     textDocument.font = "Battery Park";
-//     textProp.setValue(textDocument);
-
-//     // Set the start and end times
-//     textLayer.startTime = intervalBatchOfWords.start;
-//     textLayer.outPoint = intervalBatchOfWords.end;
-
-//     // Set the background color to dark yellow
-//     var fillEffect = textLayer.property("Effects").addProperty("Fill");
-//     fillEffect.property("Color").setValue([1, 1, 0]); // Dark yellow color
-// }
-
-// alert("Finished adding captions.");
-
-
-// '****************WORKING****************'
-// var compName = "test"; // replace with your composition name
-
-// // Transcription data
-// var captionData = {
-//   "intervalBatchOfWords": {
-//     "words": "OK so let's go back to the complexity problem See",
-//     "start": 0.159,
-//     "end": 3.94
-//   }
-// };
-
-// // Get the active composition
-// var comp = app.project.activeItem;
-// if (!comp || !(comp instanceof CompItem) || comp.name !== compName) {
-//   alert("No active composition named '" + compName + "' found.");
-//   exit();
-// }
-
-// // Create a new text layer for the caption
-// var textLayer = comp.layers.addText();
-// textLayer.name = "Caption 1"; // Set a name for the text layer
-// textLayer.property("Source Text").setValue(captionData.intervalBatchOfWords.words);
-
-// // Set the start and end times
-// textLayer.startTime = captionData.intervalBatchOfWords.start;
-// textLayer.outPoint = captionData.intervalBatchOfWords.end;
-
-// alert("Caption added.");
-
-// // Continue with the rest of the code if needed...
-// '****************WORKING****************'
-
-
-
 var compName = "test"; // replace with your composition name
 
 // Load the JSON data from the file
@@ -116,9 +11,6 @@ jsonFile.open("r");
 var jsonData = jsonFile.read();
 jsonFile.close();
 
-// var transcriptionForCaptions = JSON.parse(jsonData);
-// alert(transcriptionForCaptions[0][transcriptionForCaptions[0].length -1])
-
 if (typeof JSON === "undefined") {
     // Polyfill for JSON object
     eval(
@@ -126,13 +18,10 @@ if (typeof JSON === "undefined") {
     );
 }
 
-
 // Parse the JSON data
 var transcriptionForCaptions;
 try {
   transcriptionForCaptions = JSON.parse(jsonData);
-  // alert(JSON.stringify(transcriptionForCaptions[0][transcriptionForCaptions[0].length - 1]));
-
 } catch (e) {
   alert("Failed to parse JSON data: " + e + "--->" + typeof(transcriptionForCaptions));
   exit();
@@ -151,9 +40,7 @@ alert(transcriptionForCaptions.length)
 alert(lastArray.length)
 
 var maxEndTime = 143.729
-alert(maxEndTime)
 
-var bgColor = [1, 0, 0]; // RGB color values (red in this example)
 // Loop through the transcription data and add captions
 for (var i = 0; i < transcriptionForCaptions.length; i++) {
   var captionData = transcriptionForCaptions[i][transcriptionForCaptions[i].length - 1].intervalBatchOfWords;
@@ -163,6 +50,13 @@ for (var i = 0; i < transcriptionForCaptions.length; i++) {
   textLayer.name = "Caption " + (i + 1); // set a name for the text layer
   textLayer.property("Source Text").setValue(captionData.words);
 
+  // Set the text color to yellow
+  textLayer.property("Source Text").setValue(new TextDocument(captionData.words));
+  var textProp = textLayer.property("Source Text");
+  var textDocument = textProp.value;
+  textDocument.resetCharStyle();
+  textDocument.fillColor = [1, 1, 0]; // RGB color values (yellow in this example)
+  textProp.setValue(textDocument);
 
   textLayer.inPoint = captionData.start;
   textLayer.outPoint = captionData.end;
@@ -176,11 +70,7 @@ for (var i = 0; i < transcriptionForCaptions.length; i++) {
 
   // Adjust the anchor point to the center of the text bounding box
   textLayer.property("Anchor Point").setValue(textCenter);
-
   textLayer.property("Position").setValue([xPos, yPos]);
-
-
-
 
 }
 
