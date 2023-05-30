@@ -1,54 +1,35 @@
-// Import the photo file into the project
-var photoImportOptions = new ImportOptions(new File("./durk.png"));
-var photoFile = project.importFile(photoImportOptions);
+// Import the image file into the project
+var importOptions = new ImportOptions(new File("./durk.png"));
+var imageFile = project.importFile(importOptions);
 
-// Add the photo to the composition
-var photoLayer = comp.layers.add(photoFile);
+// Add the image to the composition
+var imageLayer = comp.layers.add(imageFile);
 
-// Set the photo layer to start 10 seconds into the composition and last for 3.5 seconds.
-photoLayer.startTime = 10;
-photoLayer.outPoint = 13.5;
+// Scale and position the image layer to fit the composition
+var scaleFactor = Math.min(compWidth / imageFile.width, compHeight / imageFile.height);
+imageLayer.property("Scale").setValue([scaleFactor * 100, scaleFactor * 100]);
+imageLayer.property("Position").setValue([compWidth / 2, compHeight / 2]);
 
-// Create an adjustment layer for the transition in.
-var adjustmentLayerIn = comp.layers.addSolid([0, 0, 0], "Adjustment Layer In", compWidth, compHeight, pixelAspect, duration);
-adjustmentLayerIn.adjustmentLayer = true;
-adjustmentLayerIn.startTime = 9.5;
-adjustmentLayerIn.outPoint = 10.5;
+// Set the image layer start and end times
+var startTime = 10; // Start time in seconds
+var endTime = 13; // End time in seconds
+imageLayer.startTime = startTime;
+imageLayer.outPoint = endTime;
 
-// Add the 'Transform' effect to the adjustment layer.
-var myEffectIn = adjustmentLayerIn.property("ADBE Effect Parade").addProperty("ADBE Geometry2");
+// Add a Gaussian Blur effect to the image layer
+var gaussianBlur = imageLayer.Effects.addProperty("ADBE Gaussian Blur 2");
 
-// Set keyframes for the scale property of the Transform effect.
-myEffectIn.property("Scale").setValueAtTime(9.5, 100);
-myEffectIn.property("Scale").setValueAtTime(10, 300);
-myEffectIn.property("Scale").setValueAtTime(10.5, 100);
+// Set the blurriness and add keyframes
+var transitionDuration = 0.5; // Transition duration in seconds
+gaussianBlur.property("Blurriness").setValueAtTime(startTime, 0);
+gaussianBlur.property("Blurriness").setValueAtTime(startTime + transitionDuration, 50);
+gaussianBlur.property("Blurriness").setValueAtTime(startTime + transitionDuration * 2, 0);
+gaussianBlur.property("Blurriness").setValueAtTime(endTime - transitionDuration * 2, 0);
+gaussianBlur.property("Blurriness").setValueAtTime(endTime - transitionDuration, 50);
+gaussianBlur.property("Blurriness").setValueAtTime(endTime, 0);
 
-// Add a 'Gaussian Blur' effect to the adjustment layer.
-myEffectIn = adjustmentLayerIn.property("ADBE Effect Parade").addProperty("ADBE Gaussian Blur 2");
-
-// Set keyframes for the blurriness property of the Gaussian Blur effect.
-myEffectIn.property("Blurriness").setValueAtTime(9.5, 0);
-myEffectIn.property("Blurriness").setValueAtTime(10, 100);
-myEffectIn.property("Blurriness").setValueAtTime(10.5, 0);
-
-// Create a second adjustment layer for the transition out.
-var adjustmentLayerOut = comp.layers.addSolid([0, 0, 0], "Adjustment Layer Out", compWidth, compHeight, pixelAspect, duration);
-adjustmentLayerOut.adjustmentLayer = true;
-adjustmentLayerOut.startTime = 13;
-adjustmentLayerOut.outPoint = 13.5;
-
-// Add the 'Transform' effect to the second adjustment layer.
-var myEffectOut = adjustmentLayerOut.property("ADBE Effect Parade").addProperty("ADBE Geometry2");
-
-// Set keyframes for the scale property of the Transform effect.
-myEffectOut.property("Scale").setValueAtTime(13, 100);
-myEffectOut.property("Scale").setValueAtTime(13.25, 300);
-myEffectOut.property("Scale").setValueAtTime(13.5, 100);
-
-// Add a 'Gaussian Blur' effect to the second adjustment layer.
-myEffectOut = adjustmentLayerOut.property("ADBE Effect Parade").addProperty("ADBE Gaussian Blur 2");
-
-// Set keyframes for the blurriness property of the Gaussian Blur effect.
-myEffectOut.property("Blurriness").setValueAtTime(13, 0);
-myEffectOut.property("Blurriness").setValueAtTime(13.25, 100);
-myEffectOut.property("Blurriness").setValueAtTime(13.5, 0);
+// Add keyframes for the position to create the slide effect
+imageLayer.property("Position").setValueAtTime(startTime, [-compWidth / 2, compHeight / 2]);
+imageLayer.property("Position").setValueAtTime(startTime + transitionDuration, [compWidth / 2, compHeight / 2]);
+imageLayer.property("Position").setValueAtTime(endTime - transitionDuration, [compWidth / 2, compHeight / 2]);
+imageLayer.property("Position").setValueAtTime(endTime, [compWidth * 1.5, compHeight / 2]);
