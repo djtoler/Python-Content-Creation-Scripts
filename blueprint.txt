@@ -1,0 +1,29 @@
+
+1. Find a subject to post about
+IG, Reddit, YouTube
+
+2. Create a main script
+ChatGPT 
+
+3. Create main video or audio
+Shoot video or make audio from voice clone
+
+4. Get a timeline layout of transcription
+transcribeAudio.js
+Put intervalBatchOfWords into timeline layout
+
+5. Create directory of assets based on timeline layout
+Images, GIFs, Video clips
+
+6. Connect editing ideas to timeline layout
+Line assets up with transcript timeline
+
+7. Edit assets(Python)
+
+8. Add Python pops/slides(Python)
+
+9. Add captions to video(JS/AE)
+
+10. Add effects into video(JS/AE)
+
+11. Add sound effects to video with (Python) 

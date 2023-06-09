@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Timeline</title>
+  <style>
+    /* CSS styles for the timeline */
+    .timeline {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      list-style: none;
+      padding: 0;
+      margin: 20px 0;
+    }
+
+    .timeline-item {
+      position: relative;
+      width: 300px;
+      height: 300px;
+      background-color: #333;
+      color: #fff;
+      margin-right: 20px;
+      margin-bottom: 20px;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 10px;
+    }
+
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      right: -20px;
+      transform: translateY(-50%);
+      width: 40px;
+      height: 4px;
+      background-color: #333;
+    }
+
+    .timeline-item:last-child::before {
+      display: none;
+    }
+
+    .timeline-item:hover::before {
+      background-color: #fff;
+    }
+
+    .dropdown {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      display: none;
+      width: 200px;
+      padding: 10px;
+      background-color: #fff;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    }
+
+    .timeline-item:hover .dropdown {
+      display: block;
+      transform: translate(-50%, -100%); /* Add this line */
+    }
+
+    .dropdown-item {
+      margin-bottom: 5px;
+    }
+
+    /* Media queries for responsive layout */
+    @media screen and (max-width: 768px) {
+      .timeline-item {
+        width: 300px;
+        height: 300px;
+      }
+    }
+
+    @media screen and (max-width: 480px) {
+      .timeline-item {
+        width: 100%;
+        margin-right: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>My Timeline</h1>
+
+  <ul class="timeline">
+    <li class="timeline-item">
+      Sentence 1
+      <div class="dropdown">
+        <div class="dropdown-item">
+          <a href="media1.mp4">Media 1</a>
+        </div>
+        <div class="dropdown-item">
+          <a href="media2.mp4">Media 2</a>
+        </div>
+        <div class="dropdown-item">
+          <a href="media3.mp4">Media 3</a>
+        </div>
+      </div>
+    </li>
+    <li class="timeline-item">
+      Sentence 2
+      <div class="dropdown">
+        <div class="dropdown-item">
+          <a href="media4.mp4">Media 4</a>
+        </div>
+        <div class="dropdown-item">
+          <a href="media5.mp4">Media 5</a>
+        </div>
+      </div>
+    </li>
+    <li class="timeline-item">
+      Sentence 3
+      <div class="dropdown">
+        <div class="dropdown-item">
+          <a href="media6.mp4">Media 6</a>
+        </div>
+      </div>
+    </li>
+    <li class="timeline-item">
+      Sentence 4
+      <div class="dropdown">
+        <div class="dropdown-item">
+          <a href="media7.mp4">Media 7</a>
+        </div>
+        <div class="dropdown-item">
+          <a href="media8.mp4">Media 8</a>
+        </div>
+      </div>
+    </li>
+    <li class="timeline-item">
+      Sentence 5
+      <div class="dropdown">
+        <div class="dropdown-item">
+          <a href="media9.mp4">Media 9</a>
+        </div>
+      </div>
+    </li>
+    <li class="timeline-item">
+      Sentence 6
+      <div class="dropdown">
+        <div class="dropdown-item">
+          <a href="media10.mp4">Media 10</a>
+        </div>
+        <div class="dropdown-item">
+          <a href="media11.mp4">Media 11</a>
+        </div>
+      </div>
+    </li>
+    <li class="timeline-item">
+      Sentence 7
+      <div class="dropdown">
+        <div class="dropdown-item">
+          <a href="media12.mp4">Media 12</a>
+        </div>
+      </div>
+    </li>
+  </ul>
+</body>
+</html>
