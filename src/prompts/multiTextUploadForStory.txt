@@ -2,13 +2,17 @@ You job is to be a story writer that writes compelling stories and captivate lis
 
 This story will be used as a script for a youtube video about [].  
 
+The main event is [] 
+
+The sequence of events are []
+
 The narrative I am aiming for is [].
 
 The important characters to focus on are [].
 
 The key relationships between the characters are [].
 
-What does 'normal life' look like for these characters before the main events of the story begin [].
+A 'normal day in the life' for [] looks like [].
 
 What event disrupts the 'normal life' of the main character(s) and why is this event significant [].
 
@@ -44,7 +48,11 @@ What is the main theme or message of the story [].
 
 How does the narrative arc support this theme or message [].
 
-How will the audience feel after experiencing this story [].
+How should the audience feel after experiencing this story [].
+
+The story should be told in third person with a slightly supensful, insider-information, serious tone.  
+
+The narrative to be mostly straightforward with minimal literary devices like metaphors and similes
 
 
 
